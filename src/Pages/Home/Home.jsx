@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react';
 import { getTrendingMovies } from 'Api/Api';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import {
+	HomeContainer,
+	HomeText,
+	HomeList,
+	StyledHomeLink,
+	HomeImg,
+} from './Home.styled';
+
 export const Home = () => {
 	const [films, setFilms] = useState(null);
 	const location = useLocation();
@@ -12,24 +20,28 @@ export const Home = () => {
 	}, []);
 
 	return (
-		<div>
-			<h1>Trending Today</h1>
-			<ul>
+		<HomeContainer>
+			<HomeText>Trending Today</HomeText>
+			<HomeList>
 				{films &&
 					films.map(({ id, poster_path, title }) => {
 						return (
-							<Link to={`movies/${id}`} state={{ from: location }}>
-								<li key={poster_path}>
-									<img
+							<StyledHomeLink
+								key={poster_path}
+								to={`movies/${id}`}
+								state={{ from: location }}
+							>
+								<li>
+									<HomeImg
 										src={`http://image.tmdb.org/t/p/w500${poster_path}`}
 										alt={title}
 									/>
 									<p>{title}</p>
 								</li>
-							</Link>
+							</StyledHomeLink>
 						);
 					})}
-			</ul>
-		</div>
+			</HomeList>
+		</HomeContainer>
 	);
 };

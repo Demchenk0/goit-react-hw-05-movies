@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from '../components/Layout/Layout';
 import { Home } from '../Pages/Home/Home';
 import { Movies } from '../Pages/Movies/Movies';
@@ -17,8 +17,10 @@ export const App = () => {
 					<Route path="cast" element={<Cast />} />
 					<Route path="reviews" element={<Reviews />} />
 				</Route>
-				<Route path="*" element={<p>Not Found</p>}></Route>
+				<Route path="*" element={<Navigate to="home" />}></Route>
 			</Route>
 		</Routes>
 	);
 };
+
+// !Добаавить путь для ГИТА в index.js BaseName добавить ОБЕЗАТЕЛЬНО!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
