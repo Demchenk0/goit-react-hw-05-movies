@@ -37,17 +37,24 @@ export const Movies = () => {
 			return;
 		}
 		getSearchMovies(query).then(({ data }) => {
+			// !Проверка
+			// arrayFilm.length === 0 ? (
+			// 	alert('Ничего нету')
+			// ) : (
+			// );
 			setArrayFilm(data.results);
 		});
-	}, [query]);
+	}, [arrayFilm.length, query]);
 	return (
 		<>
 			<MoviesForm onSubmit={hanleFormSubmit}>
 				<MoviesInput type="text" onChange={handleSearchQuery} />
 				<MoviesButton type="submit">Search</MoviesButton>
 			</MoviesForm>
+			{/* {arrayFilm?.length < 1 && !null && <p>Enter the movie titles</p>} */}
+
 			<MoviesList>
-				{arrayFilm &&
+				{arrayFilm?.length ? (
 					arrayFilm.map(({ id, poster_path, title }) => {
 						return (
 							<MoviesLink
@@ -64,7 +71,10 @@ export const Movies = () => {
 								</li>
 							</MoviesLink>
 						);
-					})}
+					})
+				) : (
+					<li>Enter the movie titles</li>
+				)}
 			</MoviesList>
 			<Outlet />
 		</>
