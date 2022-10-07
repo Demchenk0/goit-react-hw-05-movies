@@ -16,57 +16,60 @@ export const Movies = () => {
 	const [arrayFilm, setArrayFilm] = useState([]);
 	const location = useLocation();
 
+	const [btnDisabled, setBtnDisabled] = useState(true);
+
 	// todo передача с импута в поисковую строку***
 
 	const query = searchParams.get('filmQuery');
 	const handleSearchQuery = e => {
+		setBtnDisabled(false);
 		const filmQuery = e.target.value;
 		setSearchQuery(filmQuery !== '' ? { filmQuery } : {});
 	};
 	console.log(searchQuery);
 	const hanleFormSubmit = event => {
 		event.preventDefault();
+		if (!searchQuery) {
+			setBtnDisabled(true);
+		}
 		setSearchParams(searchQuery);
+
 		event.target.reset();
 	};
 	console.log(query);
 	console.log('arrayFilm', arrayFilm);
+
 	useEffect(() => {
-		if (!query) {
-			console.log(query);
-			return;
+		if (query) {
+			getSearchMovies(query).then(({ data }) => {
+				setArrayFilm(data.results);
+			});
 		}
-		getSearchMovies(query).then(({ data }) => {
-			// !Проверка
-			// arrayFilm.length === 0 ? (
-			// 	alert('Ничего нету')
-			// ) : (
-			// );
-			setArrayFilm(data.results);
-		});
-	}, [arrayFilm.length, query]);
+	}, [query]);
 	return (
 		<>
 			<MoviesForm onSubmit={hanleFormSubmit}>
 				<MoviesInput type="text" onChange={handleSearchQuery} />
-				<MoviesButton type="submit">Search</MoviesButton>
+				<MoviesButton disabled={btnDisabled} type="submit">
+					Search
+				</MoviesButton>
 			</MoviesForm>
 			{/* {arrayFilm?.length < 1 && !null && <p>Enter the movie titles</p>} */}
 
 			<MoviesList>
 				{arrayFilm?.length ? (
-					arrayFilm.map(({ id, poster_path, title }) => {
+					arrayFilm.map(({ id, poster_path, title }, index) => {
+						const blockImage = poster_path
+							? `http://image.tmdb.org/t/p/w500${poster_path}`
+							: `https://socialvk.ru/800/600/https/mapsrb.ru/magistration/img/2432-oshibka-4-vk.jpg`;
 						return (
 							<MoviesLink
-								key={poster_path}
+								key={index}
 								to={`/movies/${id}`}
 								state={{ from: location }}
 							>
 								<li>
-									<MoviesImg
-										src={`http://image.tmdb.org/t/p/w500${poster_path}`}
-										alt={title}
-									/>
+									<MoviesImg src={blockImage} alt={title} />
 									<p>{title}</p>
 								</li>
 							</MoviesLink>

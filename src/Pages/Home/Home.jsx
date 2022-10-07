@@ -25,6 +25,9 @@ export const Home = () => {
 			<HomeList>
 				{films &&
 					films.map(({ id, poster_path, title }) => {
+						const blockImage = poster_path
+							? `http://image.tmdb.org/t/p/w500${poster_path}`
+							: `https://socialvk.ru/800/600/https/mapsrb.ru/magistration/img/2432-oshibka-4-vk.jpg`;
 						return (
 							<StyledHomeLink
 								key={poster_path}
@@ -32,10 +35,7 @@ export const Home = () => {
 								state={{ from: location }}
 							>
 								<li>
-									<HomeImg
-										src={`http://image.tmdb.org/t/p/w500${poster_path}`}
-										alt={title}
-									/>
+									<HomeImg src={blockImage} alt={title} />
 									<p>{title}</p>
 								</li>
 							</StyledHomeLink>

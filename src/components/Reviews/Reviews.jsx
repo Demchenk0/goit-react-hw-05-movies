@@ -18,8 +18,8 @@ export const Reviews = () => {
 			<div>
 				<ReviewLink>
 					{reviews?.length ? (
-						reviews.map(({ id, author, content }) => (
-							<li key={id}>
+						reviews.map(({ author, content }, index) => (
+							<li key={index}>
 								<h2>Author: {author}</h2>
 								<ReviewText>{content}</ReviewText>
 							</li>
