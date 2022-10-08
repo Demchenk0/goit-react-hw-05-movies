@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import { getSearchMovies } from 'Api/Api';
 import { useState, useEffect } from 'react';
 import { useSearchParams, useLocation, Outlet } from 'react-router-dom';
@@ -79,7 +81,9 @@ export const Movies = () => {
 					<li>Enter the movie titles</li>
 				)}
 			</MoviesList>
-			<Outlet />
+			<Suspense fallback={<div>Loading...</div>}>
+				<Outlet />
+			</Suspense>
 		</>
 	);
 };
